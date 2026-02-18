@@ -4,6 +4,7 @@ import random
 char_name = input("What is your character's name? ")
 player_xp = 0
 player_health = 100
+player_level = 1
 char_class = "Warrior"
 weapon = "Sword"
 weapon_dmg = 0
@@ -24,14 +25,20 @@ enemies = [
 
 # Action Menu 
 def Action_Menu(player_health, player_xp):
+    global base_attack, player_level
     while player_health > 0:
-        choice = input(f"\n{char_name} is resting. Select an option: \nExplore (E) \nRest (Quit) (R) \n").upper()
+        choice = input(f"\n{char_name} is resting. HP: {player_health} \nSelect an option: \nExplore (E) \nRest (Quit) (R) \n").upper()
         if choice == "E":
             random_enemy = random.choice(enemies)
             player_health, player_xp = Combat(player_health, player_xp, random_enemy)
+
             # Level up check after combat
-            if player_xp >= 10:
-                print(f"\nLEVEL UP! Your XP is {player_xp}. Base attack increased!")
+            if player_xp >= (player_level * 50):
+                player_level += 1
+                base_attack += 5
+                print(f"\nLEVEL UP! You are now level {player_level}!")
+                print(f"\nBase attack increased to {base_attack}")
+
         else:
             print("Thanks for playing!")
             break
