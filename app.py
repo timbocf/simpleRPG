@@ -72,11 +72,11 @@ def Combat(player_health, player_xp, enemy_data):
                 exit()
 
         elif choice == "N":
-            print(f"\nYou try to dodge but are blocked! The {enemy} attacks! Your health decreases by 2")
+            print(f"\nYou try to dodge but are blocked! The {e_name} attacks! Your health decreases by 2")
             player_health -= 2
             print(f"{char_name}'s HP: {player_health}")
         else: 
-            print(f"\nInvalid input! The {enemy} attacks and you take {enemy_attack}HP damage")
+            print(f"\nInvalid input! The {e_name} attacks and you take {e_atk}HP damage")
             player_health -= 5
     print(f"{e_name} has been defeated! ")
     player_xp += 20
