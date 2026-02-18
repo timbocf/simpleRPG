@@ -27,7 +27,7 @@ enemies = [
 def Action_Menu(player_health, player_xp):
     global base_attack, player_level
     while player_health > 0:
-        choice = input(f"\n{char_name} is resting. HP: {player_health} \nSelect an option: \nExplore (E) \nRest (Quit) (R) \n").upper()
+        choice = input(f"\n{char_name} is resting. HP: {player_health} \nSelect an option: \nExplore (E) \nRest (R) \nQuit (Q) ").upper()
         if choice == "E":
             random_enemy = random.choice(enemies)
             player_health, player_xp = Combat(player_health, player_xp, random_enemy)
@@ -39,16 +39,17 @@ def Action_Menu(player_health, player_xp):
                 print(f"\nLEVEL UP! You are now level {player_level}!")
                 print(f"\nBase attack increased to {base_attack}")
 
+        elif choice == "R":
+            print(f"{char_name} rests for the night and restores all his HP.")
+            player_health = 100
         else:
             print("Thanks for playing!")
-            break
+            exit()
 
 # Combat system
 def Combat(player_health, player_xp, enemy_data):
     # Unpack enemy data
-    e_name = enemy_data[0]
-    e_h = enemy_data[1]
-    e_atk = enemy_data[2]
+    e_name, e_h, e_atk = enemy_data[0], enemy_data[1], enemy_data[2]
 
     print(f"\nA wild {e_name} appears! (HP: {e_h}, ATK: {e_atk})")
 
