@@ -2,17 +2,22 @@ import random
 
 # Character creation
 char_name = input("What is your character's name? ")
+char_class = input("\nClass: Warrior (W), Mage (M), Thief (T) ").title()
+
+# (Class, Weapon, Damage)
+class = [
+    ["Warrior", "Sword", 20],
+    ["Mage", "Staff", 5],
+    ["Thief", "Dagger", 10]
+]
+
 player_xp = 0
 player_health = 100
 player_level = 1
-char_class = "Warrior"
-weapon = "Sword"
-weapon_dmg = 0
+
 base_attack = 10
 char_atk_bonus = 5
 crit_chance = 20
-if weapon == "Sword":
-    weapon_dmg = 10
 
 # Enemies
 # (Name, Health, Attack)
