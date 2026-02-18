@@ -1,24 +1,51 @@
 import random
 
+# Character creation
 char_name = input("What is your character's name? ")
 player_xp = 0
-health = 100
+player_health = 100
 char_class = "Warrior"
 weapon = "Sword"
 weapon_dmg = 0
-enemy = "Slime"
-enemy_health = 50
-enemy_attack = 2
 base_attack = 10
 char_atk_bonus = 5
 crit_chance = 20
-
 if weapon == "Sword":
     weapon_dmg = 10
 
-def Combat(health, enemy_health, player_xp):
-    print(f"\nAn {enemy} attacks!")
-    while enemy_health > 0:
+# Enemies
+# (Name, Health, Attack)
+enemies = [
+    ["Slime", 30, 2],
+    ["Goblin", 50, 5],
+    ["Orc", 80, 10],
+    ["Dragon Spawn", 120, 15]
+]
+
+# Action Menu 
+def Action_Menu(player_health, player_xp):
+    while player_health > 0:
+        choice = input(f"\n{char_name} is resting. Select an option: \nExplore (E) \nRest (Quit) (R) \n").upper()
+        if choice == "E":
+            random_enemy = random.choice(enemies)
+            player_health, player_xp = Combat(player_health, player_xp, random_enemy)
+            # Level up check after combat
+            if player_xp >= 10:
+                print(f"\nLEVEL UP! Your XP is {player_xp}. Base attack increased!")
+        else:
+            print("Thanks for playing!")
+            break
+
+# Combat system
+def Combat(player_health, player_xp, enemy_data):
+    # Unpack enemy data
+    e_name = enemy_data[0]
+    e_h = enemy_data[1]
+    e_atk = enemy_data[2]
+
+    print(f"\nA wild {e_name} appears! (HP: {e_h}, ATK: {e_atk})")
+
+    while e_h > 0 and player_health > 0:
         choice = input("\nAttack? Y or N ").upper()
 
         if choice == "Y":
@@ -30,32 +57,30 @@ def Combat(health, enemy_health, player_xp):
                 damage = damage * 2
                 print("CRITICAL HIT!! Double damage!!")
 
-            enemy_health -= damage
-            print(f"You dealt {damage} damage! Enemy HP: {max(0, enemy_health)}")
+            e_h -= damage
+            print(f"You hit {e_name} for {damage} damage! Enemy HP: {max(0, e_h)}")
 
             # Check if enemy died
-            if enemy_health <= 0:
-                break
+            if e_h <= 0: break
 
             # -- Enemy's turn --
-            health -= enemy_attack
+            player_health -= e_atk
+            print(f"\nThe {e_name} attacks! {char_name}'s health decreases by {e_atk}; {char_name}'s health is now {player_health}")
 
-            print(f"\nThe {enemy} attacks! {char_name}'s health decreases by {enemy_attack}; {char_name}'s health is now {health}")
+            if player_health <= 0:
+                print("You have been defeated.")
+                exit()
 
         elif choice == "N":
             print(f"\nYou try to dodge but are blocked! The {enemy} attacks! Your health decreases by 2")
-            health -= 2
-            print(f"{char_name}'s HP: {health}")
+            player_health -= 2
+            print(f"{char_name}'s HP: {player_health}")
         else: 
             print(f"\nInvalid input! The {enemy} attacks and you take {enemy_attack}HP damage")
-            health -= 5
-    print(f"The {enemy} has been defeated!")
-    player_xp += 10
-    return health, player_xp
+            player_health -= 5
+    print(f"{e_name} has been defeated! ")
+    player_xp += 20
+    return player_health, player_xp
 
-health, player_xp = Combat(health, enemy_health, player_xp)
-print(f"\nYour XP has increased by 10. Your XP is now {player_xp}")
-
-if player_xp >= 10:
-    print(f"\nLEVEL UP! Your base attack has increased by 2.")
-    base_attack += 2
+# Start the game
+Action_Menu(player_health, player_xp)
