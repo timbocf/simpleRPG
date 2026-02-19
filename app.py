@@ -5,7 +5,7 @@ char_name = input("What is your character's name? ")
 char_class = input("\nClass: Warrior (W), Mage (M), Thief (T) ").title()
 
 # (Class, Weapon, Damage)
-class = [
+char_class = [
     ["Warrior", "Sword", 20],
     ["Mage", "Staff", 5],
     ["Thief", "Dagger", 10]
@@ -64,7 +64,7 @@ def Combat(player_health, player_xp, enemy_data):
         if choice == "Y":
             # -- Player's turn --
             roll = random.randint(1, 100) # Picks a number between 1 and 100
-            damage = base_attack + char_atk_bonus + weapon_dmg
+            damage = base_attack + char_atk_bonus
 
             if roll <= crit_chance:
                 damage = damage * 2
